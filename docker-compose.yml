@@ -1,0 +1,22 @@
+version: "3.7"
+
+services:
+  reverse:
+    image: "traefik:latest"
+    container_name: "traefik"
+    command:
+      - "--entrypoints.web.address=:80"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+    volumes:
+    # traefik does its magic by reading information about running containers from the docker socket
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    ports:
+      - "80:80"
+      - "8080:8080"
+
+networks:
+  default:
+    external:
+      name: proxy
