@@ -1,11 +1,9 @@
 version: "3.5"
 
 services:
-  reverse:
-    container_name: proxy-traefik
+  proxy:
     image: traefik:latest
     command:
-      - "--providers.docker.exposedByDefault=false"
       - "--providers.docker=true"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
@@ -14,5 +12,5 @@ services:
 
 networks:
   default:
-    external: true
-    name: proxy
+    external:
+      name: proxy
