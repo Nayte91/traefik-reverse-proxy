@@ -9,8 +9,10 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     ports:
       - "80:80"
+    networks:
+      - proxy
 
 networks:
-  default:
+  proxy:
     external:
-      name: proxy
+      name: reverse_proxy_network
