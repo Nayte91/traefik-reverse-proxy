@@ -14,5 +14,4 @@ services:
 
 networks:
   proxy:
-    external:
-      name: reverse_proxy_network
+    name: reverse_proxy_network
