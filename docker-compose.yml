@@ -4,6 +4,7 @@ services:
   proxy:
     image: traefik:latest
     command:
+      - "--providers.docker.network=reverse_proxy_network"
       - "--providers.docker=true"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
