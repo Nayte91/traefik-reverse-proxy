@@ -5,11 +5,14 @@ services:
     image: traefik:latest
     command:
       - "--providers.docker.network=reverse_proxy_network"
-      - "--providers.docker=true"
+      - --entrypoints.web.address=:80
       - --entrypoints.websecure.address=:443
-      - --certificatesresolvers.le.acme.email=my@email.com
-      - --certificatesresolvers.le.acme.storage=/acme.json
-      - --certificatesresolvers.le.acme.tlschallenge=true
+      - --providers.docker
+      - --api.insecure
+      - --certificatesresolvers.leresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
+      - --certificatesresolvers.leresolver.acme.email=your@email.com
+      - --certificatesresolvers.leresolver.acme.storage=/acme.json
+      - --certificatesresolvers.leresolver.acme.tlschallenge=true
     ports:
       - "443:443"
     volumes:
