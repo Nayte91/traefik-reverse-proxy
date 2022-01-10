@@ -1,0 +1,12 @@
+entryPoints:
+  web:
+    address: ":80"
+  websecure:
+    address: ":443"
+
+certificatesResolvers:
+  myresolver:
+    acme:
+      email: "nayte91@gmail.com"
+      storage: "letsencrypt/acme.json"
+      tlsChallenge: {}

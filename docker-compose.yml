@@ -1,36 +1,20 @@
-version: "3.3"
+version: "3.5"
 
 services:
-  traefik:
-    image: "traefik:v2.0.1"
+  proxy:
+    image: traefik:latest
     command:
-      - --entrypoints.web.address=:80
-      - --entrypoints.websecure.address=:443
+      - --providers.docker.network=reverse_proxy_network
       - --providers.docker
-      - --api.insecure
-      - --certificatesresolvers.leresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
-      - --certificatesresolvers.leresolver.acme.email=your@email.com
-      - --certificatesresolvers.leresolver.acme.storage=/le/acme.json
-      - --certificatesresolvers.leresolver.acme.tlschallenge=true
     ports:
-      - "80:80"
       - "443:443"
-      - "8080:8080"
     volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "./le:/le"
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik/traefik.yml:/traefik.yml
+      - "./letsencrypt:/letsencrypt"
+    networks:
+      - proxy
 
-  my-app:
-    image: containous/whoami:v1.3.0
-    labels:
-      - "traefik.http.routers.my-app.rule=Host(`test.anagraph.org`)"
-      - "traefik.http.routers.my-app.middlewares=auth"
-      - "traefik.http.routers.my-app.entrypoints=websecure"
-      - "traefik.http.routers.my-app.tls.certresolver=leresolver"
-      - "traefik.http.middlewares.auth.basicauth.users=user:$$apr1$$q8eZFHjF$$Fvmkk//V6Btlaf2i/ju5n/" # user/password
-
-# - --providers.docker.network=reverse_proxy_network
-
-# networks:
-#   proxy:
-#     name: reverse_proxy_network
+networks:
+  proxy:
+    name: reverse_proxy_network
