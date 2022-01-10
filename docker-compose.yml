@@ -11,8 +11,8 @@ services:
       - "80:80"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./traefik/traefik.yml:/traefik.yml
-      - "./letsencrypt:/letsencrypt"
+      - ./traefik.yml:/traefik.yml
+      - ./letsencrypt:/letsencrypt
     networks:
       - proxy
 
