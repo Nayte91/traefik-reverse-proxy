@@ -1,34 +1,17 @@
 version: "3.5"
 
 services:
-  app:
-    build: ./app # A node app
-    command: pm2-docker start server.js # Start server via pm2
-    ports:
-      - 3000
-    labels:
-      - "traefik.enable=true" # Enable reverse-proxy for this service
-      - "traefik.frontend.rule=Host:toto.anagraph.org" # Domain name for the app
-
   proxy:
     image: traefik:latest
     command:
       - "--providers.docker.network=reverse_proxy_network"
       - "--providers.docker=true"
-      - "--entrypoints.http.address=:80"
-      - "--entrypoints.http.address.redirect.entrypoint=https"
-      - "--entrypoints.https.address=:443"
-      - "--entrypoints.https.tls=true"
-      - "--certificatesresolvers.myresolver.acme.email=nayte91@gmail.com"
-      - "--certificatesresolvers.myresolver.acme.storage=acme/certs.json"
-      - "--certificatesresolvers.myresolver.acme.entrypoint=https"
-      - "--certificatesresolvers.myresolver.acme.onhostrule=true"
-      - "--certificatesresolvers.myresolver.acme.httpChallenge.entrypoint=http"
+      - "80:80" # The HTTP port
+      - "443:443" # The HTTPS port
     volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "./volumes/traefik-acme:/acme" # Tell Traefik to save SSL certs here
-    ports:
-      - "80:80"
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik/traefik.toml:/traefik.toml
+      - ./volumes/traefik-acme:/acme # Tell Traefik to save SSL certs here
     networks:
       - proxy
 
