@@ -9,4 +9,5 @@ certificatesResolvers:
     acme:
       email: "nayte91@gmail.com"
       storage: "letsencrypt/acme.json"
-      tlsChallenge: {}
+      caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
+      tlsChallenge:
