@@ -10,7 +10,7 @@ services:
       - --providers.docker
       - --certificatesresolvers.leresolver.acme.email=nayte91@gmail.com
       - --certificatesresolvers.leresolver.acme.storage=/letsencrypt/acme.json
-      - --certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web
+      - --certificatesresolvers.leresolver.acme.httpchallenge.entrypoint=web
     ports:
       - "443:443"
     volumes:
