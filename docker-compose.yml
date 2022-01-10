@@ -6,6 +6,7 @@ services:
     command:
       - "--providers.docker.network=reverse_proxy_network"
       - "--providers.docker=true"
+    ports:
       - "80:80" # The HTTP port
       - "443:443" # The HTTPS port
     volumes:
