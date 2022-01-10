@@ -4,7 +4,7 @@ services:
   proxy:
     image: traefik:latest
     command:
-      - --providers.docker.network=reverse_proxy_network
+      # - --providers.docker.network=reverse_proxy_network
       - "--log.level=DEBUG"
       - "--api.insecure=true"
       - "--providers.docker=true"
@@ -28,6 +28,20 @@ services:
     networks:
       - proxy
 
-networks:
-  proxy:
-    name: reverse_proxy_network
+      
+  whoami:
+    image: "containous/whoami"
+    container_name: "whoami"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`whoami.mysite.com`)"
+      - "traefik.http.routers.whoami.entrypoints=web"
+      - "traefik.http.routers.whoami.middlewares=redirect-to-https@docker"
+      - "traefik.http.routers.whoami-secured.rule=Host(`whoami.mysite.com`)"
+      - "traefik.http.routers.whoami-secured.entrypoints=web-secure"
+      - "traefik.http.routers.whoami-secured.tls=true"
+      - "traefik.http.routers.whoami-secured.tls.certresolver=myhttpchallenge"
+
+# networks:
+#   proxy:
+#     name: reverse_proxy_network
