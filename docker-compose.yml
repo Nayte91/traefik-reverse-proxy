@@ -34,10 +34,10 @@ services:
     container_name: "whoami"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.whoami.rule=Host(`whoami.mysite.com`)"
+      - "traefik.http.routers.whoami.rule=Host(`whoami.anagraph.org`)"
       - "traefik.http.routers.whoami.entrypoints=web"
       - "traefik.http.routers.whoami.middlewares=redirect-to-https@docker"
-      - "traefik.http.routers.whoami-secured.rule=Host(`whoami.mysite.com`)"
+      - "traefik.http.routers.whoami-secured.rule=Host(`whoami.anagraph.org`)"
       - "traefik.http.routers.whoami-secured.entrypoints=web-secure"
       - "traefik.http.routers.whoami-secured.tls=true"
       - "traefik.http.routers.whoami-secured.tls.certresolver=myhttpchallenge"
