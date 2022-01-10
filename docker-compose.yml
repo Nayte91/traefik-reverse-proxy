@@ -6,9 +6,12 @@ services:
     command:
       - "--providers.docker.network=reverse_proxy_network"
       - "--providers.docker=true"
+      - --entrypoints.websecure.address=:443
+      - --certificatesresolvers.le.acme.email=my@email.com
+      - --certificatesresolvers.le.acme.storage=/acme.json
+      - --certificatesresolvers.le.acme.tlschallenge=true
     ports:
-      - "80:80" # The HTTP port
-      - "443:443" # The HTTPS port
+      - "443:443"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       # - ./traefik/traefik.toml:/traefik.toml
