@@ -3,16 +3,13 @@ version: "3.5"
 services:
   proxy:
     image: traefik:latest
-    command:
-      - "--providers.docker.network=reverse_proxy_network"
-      - "--providers.docker=true"
     ports:
-      - "443:443"
       - "80:80"
+      - "443:443"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./traefik.yml:/traefik.yml
-      - ./letsencrypt:/letsencrypt
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./letsencrypt:/letsencrypt"
+      - "./traefik.yml:/traefik.yml:ro"
     networks:
       - proxy
 
