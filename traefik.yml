@@ -1,7 +1,7 @@
 # log:
 #   level: DEBUG
-# experimental:
-#   http3: true
+experimental:
+  http3: true
 
 providers:
   docker:
@@ -19,7 +19,7 @@ entryPoints:
           # priority: 10
   websecure:
     address: ":443"
-    # enableHTTP3: true
+    enableHTTP3: true
 
 certificatesResolvers:
   leresolver:
