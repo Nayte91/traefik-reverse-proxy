@@ -1,3 +1,6 @@
+experimental:
+  http3: true
+
 providers:
   docker:
     network: "reverse_proxy_network"
@@ -13,6 +16,7 @@ entryPoints:
 
   websecure:
     address: ":443"
+    http3: {}
 
 certificatesResolvers:
   leresolver:
