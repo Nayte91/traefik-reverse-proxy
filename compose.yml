@@ -2,16 +2,36 @@ services:
   proxy:
     image: traefik:latest
     ports:
-      - 80:80
       - 443:443/tcp
       - 443:443/udp
     volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "./letsencrypt:/letsencrypt"
-      - "./traefik.yml:/traefik.yml:ro"
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./letsencrypt:/letsencrypt:rw
+      - ./traefik.yml:/traefik.yml:ro
     networks:
       - proxy
+    environment:
+      - OVH_ENDPOINT_FILE=/run/secrets/ovh_endpoint
+      - OVH_APPLICATION_KEY_FILE=/run/secrets/ovh_application_key
+      - OVH_APPLICATION_SECRET_FILE=/run/secrets/ovh_application_secret
+      - OVH_CONSUMER_KEY_FILE=/run/secrets/ovh_consumer_key
+    secrets:
+      - ovh_endpoint
+      - ovh_application_key
+      - ovh_application_secret
+      - ovh_consumer_key
+
+secrets:
+  ovh_endpoint:
+    file: ./secrets/ovh_endpoint.secret
+  ovh_application_key:
+    file: ./secrets/ovh_application_key.secret
+  ovh_application_secret:
+    file: ./secrets/ovh_application_secret.secret
+  ovh_consumer_key:
+    file: ./secrets/ovh_consumer_key.secret
 
 networks:
   proxy:
     name: reverse_proxy_network
+    external: true
