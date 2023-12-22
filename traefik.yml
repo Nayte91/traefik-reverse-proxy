@@ -3,25 +3,16 @@ experimental:
 
 providers:
   docker:
-    network: "reverse_proxy_network"
+    network: reverse_proxy_network
 
 entryPoints:
-  web:
-    address: ":80"
-    http:
-      redirections:
-        entryPoint:
-          to: websecure
-          scheme: https
-
   websecure:
     address: ":443"
-    http3: {}
 
 certificatesResolvers:
-  leresolver:
+  letsencrypt:
     acme:
-      email: "nayte91@gmail.com"
-      storage: "/letsencrypt/acme.json"
-      httpChallenge:
-        entryPoint: web
+      email: nayte91@gmail.com
+      storage: /letsencrypt/acme.json
+      dnsChallenge:
+        provider: ovh
