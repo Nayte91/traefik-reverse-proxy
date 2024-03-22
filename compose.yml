@@ -1,6 +1,6 @@
 services:
   proxy:
-    image: traefik:latest
+    image: traefik:3.0
     ports:
       - 443:443/tcp
       - 443:443/udp
